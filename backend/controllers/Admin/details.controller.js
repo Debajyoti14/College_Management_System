@@ -99,7 +99,7 @@ const getCount = async (req, res) => {
             message: "Count Successfull!",
             user,
         };
-        res.json(data);
+        res.status(200).json(data);
     } catch (error) {
         res
             .status(500)
