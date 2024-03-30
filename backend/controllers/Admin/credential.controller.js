@@ -47,7 +47,7 @@ const registerHandler = async (req, res) => {
             loginid: user.loginid,
             id: user.id,
         };
-        res.json(data);
+        res.status(200).json(data);
     } catch (error) {
         console.log(error)
         res.status(500).json({ success: false, message: "Internal Server Error" });
