@@ -48,7 +48,7 @@ const AddStudent = () => {
     setPreviewImage(imageUrl);
   };
 
-  const addStudentProfile = (e) => {
+  const addStudentProfile = async (e) => {
     e.preventDefault();
     toast.loading("Adding Student");
     const headers = {
@@ -65,51 +65,67 @@ const AddStudent = () => {
     formData.append("branch", data.branch);
     formData.append("gender", data.gender);
     formData.append("profile", file);
-    axios
+    await axios
       .post(`${baseApiURL()}/student/details/addDetails`, formData, {
         headers: headers,
-      })
-      .then((response) => {
+      }).then((response) => {
         toast.dismiss();
         if (response.data.success) {
           toast.success(response.data.message);
-          const formData = new FormData();
-          formData.append("employeeId", data.enrollmentNo);
-          formData.append("password", "123456");
-          axios
-            .post(`${baseApiURL()}/student/auth/register`, formData, {
-              headers: headers,
-            })
-            .then((response) => {
-              toast.dismiss();
-              if (response.data.success) {
-                toast.success(response.data.message);
-                setFile();
-                setData({
-                  enrollmentNo: "",
-                  firstName: "",
-                  middleName: "",
-                  lastName: "",
-                  email: "",
-                  phoneNumber: "",
-                  semester: "",
-                  branch: "",
-                  gender: "",
-                  profile: "",
-                });
-                setPreviewImage();
-              } else {
-                toast.error(response.data.message);
-              }
-            })
-            .catch((error) => {
-              toast.dismiss();
-              toast.error(error.response.data.message);
-            });
-        } else {
-          toast.error(response.data.message);
+          setFile();
+          setData({
+            enrollmentNo: "",
+            firstName: "",
+            middleName: "",
+            lastName: "",
+            email: "",
+            phoneNumber: "",
+            semester: "",
+            branch: "",
+          })
         }
       })
+      // .then((response) => {
+      //   toast.dismiss();
+      //   if (response.data.success) {
+      //     toast.success(response.data.message);
+      //     const formData = new FormData();
+      //     formData.append("employeeId", data.enrollmentNo);
+      //     formData.append("password", "123456");
+      //     axios
+      //       .post(`${baseApiURL()}/student/auth/register`, formData, {
+      //         headers: headers,
+      //       })
+      //       .then((response) => {
+      //         toast.dismiss();
+      //         if (response.data.success) {
+      //           toast.success(response.data.message);
+      //           setFile();
+      //           setData({
+      //             enrollmentNo: "",
+      //             firstName: "",
+      //             middleName: "",
+      //             lastName: "",
+      //             email: "",
+      //             phoneNumber: "",
+      //             semester: "",
+      //             branch: "",
+      //             gender: "",
+      //             profile: "",
+      //           });
+      //           setPreviewImage();
+      //         } else {
+      //           toast.error(response.data.message);
+      //         }
+      //       })
+      //       .catch((error) => {
+      //         toast.dismiss();
+      //         toast.error(error.response.data.message);
+      //       });
+      //   } else {
+      //     toast.error(response.data.message);
+      //   }
+      // })
       .catch((error) => {
         toast.dismiss();
         toast.error(error.response.data.message);

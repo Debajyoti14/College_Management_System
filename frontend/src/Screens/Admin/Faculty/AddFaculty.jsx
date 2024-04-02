@@ -70,48 +70,64 @@ const AddFaculty = () => {
     axios
       .post(`${baseApiURL()}/faculty/details/addDetails`, formData, {
         headers: headers,
-      })
-      .then((response) => {
+      }).then((response) => {
         toast.dismiss();
         if (response.data.success) {
           toast.success(response.data.message);
-          const formData = new FormData();
-          formData.append("employeeId", data.employeeId);
-          formData.append("password", "123456");
-          axios
-            .post(`${baseApiURL()}/faculty/auth/register`, formData, {
-              headers: headers,
-            })
-            .then((response) => {
-              toast.dismiss();
-              if (response.data.success) {
-                toast.success(response.data.message);
-                setFile();
-                setPreviewImage();
-                setData({
-                  employeeId: "",
-                  firstName: "",
-                  middleName: "",
-                  lastName: "",
-                  email: "",
-                  phoneNumber: "",
-                  department: "",
-                  gender: "",
-                  experience: "",
-                  post: "",
-                });
-              } else {
-                toast.error(response.data.message);
-              }
-            })
-            .catch((error) => {
-              toast.dismiss();
-              toast.error(error.response.data.message);
-            });
-        } else {
-          toast.error(response.data.message);
+          setFile();
+          setPreviewImage();
+          setData({
+            employeeId: "",
+            firstName: "",
+            middleName: "",
+            lastName: "",
+            email: "",
+            phoneNumber: "",
+            department: "",
+          });
         }
       })
+      // .then((response) => {
+      //   toast.dismiss();
+      //   if (response.data.success) {
+      //     toast.success(response.data.message);
+      //     const formData = new FormData();
+      //     formData.append("employeeId", data.employeeId);
+      //     formData.append("password", "123456");
+      //     axios
+      //       .post(`${baseApiURL()}/faculty/auth/register`, formData, {
+      //         headers: headers,
+      //       })
+      //       .then((response) => {
+      //         toast.dismiss();
+      //         if (response.data.success) {
+      //           toast.success(response.data.message);
+      //           setFile();
+      //           setPreviewImage();
+      //           setData({
+      //             employeeId: "",
+      //             firstName: "",
+      //             middleName: "",
+      //             lastName: "",
+      //             email: "",
+      //             phoneNumber: "",
+      //             department: "",
+      //             gender: "",
+      //             experience: "",
+      //             post: "",
+      //           });
+      //         } else {
+      //           toast.error(response.data.message);
+      //         }
+      //       })
+      //       .catch((error) => {
+      //         toast.dismiss();
+      //         toast.error(error.response.data.message);
+      //       });
+      //   } else {
+      //     toast.error(response.data.message);
+      //   }
+      // })
       .catch((error) => {
         toast.dismiss();
         toast.error(error.response.data.message);
