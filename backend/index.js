@@ -3,12 +3,15 @@ const express = require("express");
 require('dotenv').config()
 const app = express();
 connectToMongo();
-const port =  process.env.PORT;
+const port = process.env.PORT;
 var cors = require("cors");
+const bodyParser = require("body-parser");
 
 app.use(cors({
   origin: process.env.FRONTEND_API_LINK
 }));
+app.use(bodyParser.json()); // <--- Here
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json()); //to convert request data to json
 
 // Credential Apis

@@ -42,59 +42,45 @@ const AddAdmin = () => {
     axios
       .post(`${baseApiURL()}/admin/details/addDetails`, formData, {
         headers: headers,
-      }).then((response) => {
+      })
+      .then((response) => {
         toast.dismiss();
         if (response.data.success) {
           toast.success(response.data.message);
-          setFile();
-          setData({
-            employeeId: "",
-            firstName: "",
-            middleName: "",
-            lastName: "",
-            email: "",
-            phoneNumber: "",
-          });
+          const formData = {
+            "loginid": parseInt(data.employeeId),
+            "password": "123456",
+          };
+          axios
+            .post(`${baseApiURL()}/Admin/auth/register`, formData)
+            .then((response) => {
+              toast.dismiss();
+              if (response.data.success) {
+                toast.success(response.data.message);
+                setFile();
+                setData({
+                  employeeId: "",
+                  firstName: "",
+                  middleName: "",
+                  lastName: "",
+                  email: "",
+                  phoneNumber: "",
+                  gender: "",
+                  profile: "",
+                });
+                setPreviewImage("");
+              } else {
+                toast.error(response.data.message);
+              }
+            })
+            .catch((error) => {
+              toast.dismiss();
+              toast.error(error.response.data.message);
+            });
+        } else {
+          toast.error(response.data.message);
         }
       })
-      // .then((response) => {
-      //   toast.dismiss();
-      //   if (response.data.success) {
-      //     toast.success(response.data.message);
-      //     const formData = new FormData();
-      //     formData.append("employeeId", data.employeeId);
-      //     formData.append("password", "123456");
-      //     axios
-      //       .post(`${baseApiURL()}/Admin/auth/register`, formData, {
-      //         headers: headers,
-      //       })
-      //       .then((response) => {
-      //         toast.dismiss();
-      //         if (response.data.success) {
-      //           toast.success(response.data.message);
-      //           setFile();
-      //           setData({
-      //             employeeId: "",
-      //             firstName: "",
-      //             middleName: "",
-      //             lastName: "",
-      //             email: "",
-      //             phoneNumber: "",
-      //             gender: "",
-      //             profile: "",
-      //           });
-      //         } else {
-      //           toast.error(response.data.message);
-      //         }
-      //       })
-      //       .catch((error) => {
-      //         toast.dismiss();
-      //         toast.error(error.response.data.message);
-      //       });
-      //   } else {
-      //     toast.error(response.data.message);
-      //   }
-      // })
       .catch((error) => {
         toast.dismiss();
         toast.error(error.response.data.message);

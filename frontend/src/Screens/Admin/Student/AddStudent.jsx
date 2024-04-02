@@ -68,69 +68,54 @@ const AddStudent = () => {
     await axios
       .post(`${baseApiURL()}/student/details/addDetails`, formData, {
         headers: headers,
-      }).then((response) => {
+      })
+      .then((response) => {
         toast.dismiss();
         if (response.data.success) {
           toast.success(response.data.message);
-          setFile();
-          setData({
-            enrollmentNo: "",
-            firstName: "",
-            middleName: "",
-            lastName: "",
-            email: "",
-            phoneNumber: "",
-            semester: "",
-            branch: "",
-          })
+          const formData = {
+            "loginid": parseInt(data.enrollmentNo),
+            "password": "123456",
+          };
+          axios
+            .post(`${baseApiURL()}/student/auth/register`, formData)
+            .then((response) => {
+              toast.dismiss();
+              if (response.data.success) {
+                toast.success(response.data.message);
+                setFile();
+                setData({
+                  enrollmentNo: "",
+                  firstName: "",
+                  middleName: "",
+                  lastName: "",
+                  email: "",
+                  phoneNumber: "",
+                  semester: "",
+                  branch: "",
+                  gender: "",
+                  profile: "",
+                });
+                setPreviewImage();
+              } else {
+                toast.error(response.data.message);
+              }
+            })
+            .catch((error) => {
+              toast.dismiss();
+              toast.error(error.response.data.message);
+            });
+        } else {
+          toast.error(response.data.message);
         }
       })
-      // .then((response) => {
-      //   toast.dismiss();
-      //   if (response.data.success) {
-      //     toast.success(response.data.message);
-      //     const formData = new FormData();
-      //     formData.append("employeeId", data.enrollmentNo);
-      //     formData.append("password", "123456");
-      //     axios
-      //       .post(`${baseApiURL()}/student/auth/register`, formData, {
-      //         headers: headers,
-      //       })
-      //       .then((response) => {
-      //         toast.dismiss();
-      //         if (response.data.success) {
-      //           toast.success(response.data.message);
-      //           setFile();
-      //           setData({
-      //             enrollmentNo: "",
-      //             firstName: "",
-      //             middleName: "",
-      //             lastName: "",
-      //             email: "",
-      //             phoneNumber: "",
-      //             semester: "",
-      //             branch: "",
-      //             gender: "",
-      //             profile: "",
-      //           });
-      //           setPreviewImage();
-      //         } else {
-      //           toast.error(response.data.message);
-      //         }
-      //       })
-      //       .catch((error) => {
-      //         toast.dismiss();
-      //         toast.error(error.response.data.message);
-      //       });
-      //   } else {
-      //     toast.error(response.data.message);
-      //   }
-      // })
       .catch((error) => {
         toast.dismiss();
         toast.error(error.response.data.message);
       });
   };
+
+  console.log(data);
 
   return (
     <form
